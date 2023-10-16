@@ -1,0 +1,52 @@
+---
+title: "05 - 03 - Exercise Answers"
+output: pdf_document
+date: "2023-10-31"
+---
+
+Run the following code chunk before starting the exercises.
+
+```{r}
+
+orders = data.frame(OrderTotal = c(1054, 304, 822, 1276, 998, 325, 620, 844, 902, 1099, 499, 914, 850, 723, 999), OrderType = c("Set", "Parts", "Parts", "Set", "Set", "Parts", "Parts", "Parts", "Set", "Set", "Parts", "Set", "Parts", "Parts", "Set"), OrderSource = c("Website", "Website", "Store", "Store", "Store", "Website", "Website", "Store", "Website", "Store", "Store", "Website", "Website", "Website", "Store"))
+
+```
+
+1. Compute the mean and standard deviation of the OrderTotal variable.
+
+```{r}
+
+mean(orders$OrderTotal)
+sd(orders$OrderTotal)
+
+```
+
+2. Plot the OrderTotal variable as a histogram.
+
+```{r}
+
+hist(orders$OrderTotal)
+
+```
+
+3. Create a frequency table for the OrderType variable. Which type of order
+was more common?
+
+```{r}
+
+table(orders$OrderType) # 8 orders were Parts orders and 7 were Sets; parts
+                        # orders are more common.
+
+```
+
+3. Create a contingency table for the OrderType and OrderSource variables. 
+Which type of order was more common? Label the axes as "Order Type" and "Order 
+Source". Which combination was most common?
+
+```{r}
+
+table("Order Type" = orders$OrderType, "Order Source" = orders$OrderSource)
+
+# Most common combination was parts orders from the website
+
+```

@@ -1,0 +1,127 @@
+---
+title: "04 - 01 - Combining Data Sets"
+output: html_document
+date: "2023-10-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Concatenation
+
+The simplest case of combining data is concatenation, in which multiple data 
+sets are stacked atop one another or side-to-side. 
+
+If the variables across the data sets to be stacked are the same, the rbind() function can be used to stack them. 
+
+For example, to concatenate all three tournament data sets:
+
+```{r}
+
+# Manually created data set
+
+dataset = data.frame(ID = c(1,2,3,4,5), Name = c("Alice", "Bob", "Carol", "David", "Eve"), Age = c(34, 48, 59, 50, 43), Distance = c(50, 30, 50, 50, 50))
+
+# Imported CSV data set
+
+dataset.csv <- read.csv("datafile.csv")
+
+# Imported SAS7BDAT data set
+
+install.packages("haven") # Need this again because projects on Posit Cloud are  
+                          # entirely separated. Re-installing haven wouldn't be
+                          # needed on a regular computer
+library(haven)
+dataset.sas <- read_sas("datafile.sas7bdat")
+
+## Concatenating (stacking) the three data sets
+
+dataset.rbind <- rbind(dataset, dataset.csv, dataset.sas)
+
+```
+
+Similarly, the cbind() function can be used to concatenate side-by-side. 
+
+```{r}
+
+dataset.cbind <- cbind(dataset, dataset.csv, dataset.sas)
+
+```
+
+The result of this is a data set with 12 columns and 5 rows. The first four c
+olumns are the ID, Name, Age, and Distance variables from dataset because that 
+was the first argument. The second four columns are those same variables from 
+dataset.csv, and the third four columns are from dataset.sas. These had the 
+same variable names, but R does not allow variables to have the same name 
+within a data set. R automatically adjusted the variable names that appeared 
+in columns 5 through 12: the variables from dataset.csv became ID.1, Name.1, 
+Age.1, and Distance.1, and the variables from dataset.sas became ID.2, Name.2, 
+Age.2, and Distance.2.
+
+Straightforward concatenation is somewhat unusual in practice It is
+much more common to combine data sets through merging.
+
+## Merging one-to-one
+
+A one-to-one merge works by first looking for observations in the data sets to
+be merged that should be kept together because they share a source. This shared
+source is sometimes referred to as a “primary key”, and it often takes the form 
+of something like an ID number or a name.
+
+The merge() function can be used to merge data one-to-one. It has three 
+arguments. The first two are the names of the data sets to be merged. The third 
+argument tells the merge() function on which variable the two data sets should 
+be merged.
+
+To demonstrate this, run the code below to create a new data object called
+clubnames.
+
+```{r}
+
+clubnames <- data.frame(Name = c("Eve", "David", "Carol", "Bob", "Alice"), ClubName = c("School of Hard Nocks", "String Pullers", "Able Archers", "School of Hard Nocks", "Unaffiliated"))
+
+```
+
+The primary key shared between dataset and clubnames is Name, so that's the
+variable we'll use to merge these. We don't need to sort them in advance.
+
+```{r}
+
+dataset.one.to.one <- merge(dataset, clubnames, by = "Name")
+
+```
+
+## Merging one-to-many
+
+A one-to-many merge is very similar to the one-to-one merge in how it works; 
+records from two data sets are combined based on a primary key. The difference
+between the two is in the number of rows to be matched between the two 
+constituent data sets. In a one-to-one merge, each observation in the first 
+data set is matched to just one row from the second data set. In a one-to-many 
+merge, each observation in the first data set is matched with more than one row 
+from the second data set. 
+
+To demonstrate this, run the code chunk below to import a new data set that 
+contains Alice, Bob, Carol, David, and Eve's three most recent tournament
+scores (i.e., 3 rows per participant):
+
+```{r}
+
+three.scores <- read.csv("PreviousThreeScores.csv")
+
+```
+
+The merge() function can be used to merge one-to-many using the primary key 
+between data sets, which is again the Name variable.
+
+```{r}
+
+dataset.one.to.many <- merge(dataset.one.to.one, three.scores, by = "Name")
+
+```
+
+The new data set has 15 rows. The information from the five-row data set is 
+repeated within participant, but the TotalScore values for each participant
+differ based on their performance in the previous three tournaments. 
+

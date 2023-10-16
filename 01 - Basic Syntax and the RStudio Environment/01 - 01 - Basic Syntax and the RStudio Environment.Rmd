@@ -1,0 +1,96 @@
+---
+title: "01 - 01 - Basic Syntax and the RStudio Environment"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output:
+  pdf_document: default
+---
+
+## Using the Console
+
+The Console is where code you write is executed and sometimes printed line by 
+line. After you've completed a line, you press Enter/Return to execute the line. 
+Try typing each of the lines below into the Console:
+
+1 + 2 
+
+abs(-100) 
+
+You can assign values to named objects. You can do this by using an assignment
+operator. In most cases, you can use either = or <- to assign values to 
+objects, but using the latter is considered better practice because there are 
+some edge cases where the two produce different results. Try typing each of the 
+lines below into the Console and look at what appears in the Environment panel 
+(top right window):
+
+a = 1 
+       
+b <- 2 
+       
+c <- 4^4
+
+c
+
+If an operation is directly typed into the Console, R will perform it and
+print the result in the Console. If the operation is saved as a value, it will
+not print in the Console but will appear as a new value in the Environment 
+panel. 
+
+Try typing the next two lines below into the Console:
+
+d <- a + b 
+       
+D <- c/2 
+
+Notice how d and D appear as separate values in the Environment panel. This is
+because R is case sensitive - d and D are not the same! In addition to having 
+correct syntax, you must also check that the case of what you've typed is 
+correct. 
+
+To clear the saved values, press the broom icon above the Environment 
+panel. If you clear the saved values, you will need to redefine them by 
+re-running their code if you want to use them again. You will see an error 
+message if you try to use a saved variable that has been cleared.
+
+***
+
+## R Markdown
+
+R Markdown files are a special type of file that allows for word processing and
+code execution in the same document. R Markdown files, which have the .rmd file 
+extension, use Markdown to add formatting to text. There are many flourishes 
+one can add, two of which are shown in this document: headers (##) and line 
+breaks (***). A cheat sheet produced by Posit (makers of RStudio) is in the 
+project documents in this unit. 
+
+## R Markdown
+
+Code is written and executed within "chunks". All code chunks start with 
+```{r} and end with ```. You will know you've successfully set up a code 
+chunk when the background turns grey and chunk controls appear at the top-right 
+of the chunk.
+
+```{r}
+
+# A pound sign creates a code comment, which is colored green - very useful! 
+
+# In code chunks, you can execute single lines by setting your cursor on a line
+# and pressing Control + Enter
+
+x <- 10
+
+# Multiple lines can be executed by highlighting multiple lines and pressing
+# Control + Enter
+
+y <- 5
+z <- x*y
+
+# All code in a chunk can be executed by pressing the play button at the
+# top-right of the chunk
+
+```
+
+R Markdown is also useful for sharing writing and code in other file formats. 
+To export this document as a PDF file, select Knit -> Knit to PDF. The compiled 
+PDF file will appear in the Files panel. 
+

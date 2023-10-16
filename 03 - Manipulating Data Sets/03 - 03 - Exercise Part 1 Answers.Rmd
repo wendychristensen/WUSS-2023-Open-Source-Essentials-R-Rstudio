@@ -1,0 +1,50 @@
+---
+title: "03 - 03 - Exercise Part 1 Answers"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output: pdf_document
+---
+
+Run the following code chunk before completing the exercise.
+
+```{r}
+
+registration = data.frame(Registrant = c(100,101,102,103,104,105,106,107,108,109)
+, RegType = c("Student", "Student", "Presenter", "Presenter", "Regular", "Regular", "Regular", "Regular",  "Regular", "Presenter") , HotelReserved = c("Yes", "No", "No","No","Yes","Yes","Yes","No","Yes","Yes"), RegPayment = c("Card", "Card", "Check","Card","Check","Check","Card","Card","Card","Card"))
+
+```
+
+Do the following steps in order:
+
+1. You learn that Registrant 103 actually does have their hotel room reserved.
+Create a new data set named registration2 and change Registrant 103's value
+for HotelReserved to "Yes".
+
+```{r}
+
+# Other solutions exist, but here's one that will work
+
+registration2 <- registration
+
+registration2[4,3] <- "Yes"
+
+```
+
+2. You learn that Registrant 108 will not be attending. Remove this registrant
+from the registration2 data set. 
+
+```{r}
+
+registration2 <- registration2[-9,]
+
+```
+
+3. For some reason, it's bothersome that Registrant has a numeric variable 
+type. Change this variable to a character type variable in the registration2
+data set.
+
+```{r}
+
+registration2$Registrant <- as.character(registration2$Registrant)
+
+```

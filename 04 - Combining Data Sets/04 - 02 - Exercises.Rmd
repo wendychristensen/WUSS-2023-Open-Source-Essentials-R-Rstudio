@@ -1,0 +1,42 @@
+---
+title: "04 - 02 - Exercises"
+output: html_document
+date: "2023-10-31"
+---
+
+Run the following code chunk before starting the first question.
+
+```{r}
+
+first.committee = data.frame(SID = c(845675109, 687179692, 192023844, 231490119, 250596660, 414846148, 309019630), DistinctionRecommended = c("Yes", "Yes", "No", "No", "No", "Yes", "No"))
+
+second.committee = data.frame(SID = c(949501458, 159099418, 470498231, 547650148, 516224505, 577887122, 509836207, 299120339), DistinctionRecommended = c("No", "No", "Yes", "No", "No", "Yes", "No", "Yes"))
+```
+
+1. Concatenate vertically (i.e., stack) these two data sets and save them as a 
+new data set named recommendations.
+
+```{r}
+
+
+```
+
+Before starting the second question, run the following code chunk to import
+a new data set. This data set contains equated scores for the students' 
+Medicine, Pediatrics, and Surgery shelf exams. The students in this data set
+are the same ones that are in the recommendations data set.
+
+```{r}
+
+exams <- read.csv("shelfexams.csv")
+
+```
+
+2. Merge the recommendations and exams data sets. What is the primary key 
+shared by these data sets? Do you get the number of rows you'd expect based on 
+your examination of the two data sets?
+
+```{r}
+
+
+```

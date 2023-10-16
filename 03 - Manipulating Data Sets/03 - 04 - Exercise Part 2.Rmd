@@ -1,0 +1,28 @@
+---
+title: "03 - 04 - Exercise Part 2"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output: pdf_document
+---
+
+Run the code chunk before starting on the exercises
+
+```{r}
+
+presentations = data.frame(Presenter = c(10,10,10,11,12,13,14,14,15,16)
+, Minutes = c(5,15,15,5,30,30,15,15,30,15), MaterialsReceived = c("Yes", "No", "No","No","Yes","Yes","Yes","No","Yes","Yes"))
+
+```
+
+1. Use the ifelse() function to create a new variable named Length. 
+Presentations that are less than 30 minutes should be considered "short" and
+those that are 30 minutes should be considered "long".
+
+
+
+
+2. Use the subset() function to create a new data object named "contact" that
+contains only the rows from presentations where MaterialsReceived is "No"
+
+
+

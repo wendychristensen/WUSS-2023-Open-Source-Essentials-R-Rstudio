@@ -1,0 +1,139 @@
+---
+title: "05 - 01 - Summarizing Data"
+output: pdf_document
+date: "2023-10-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Summarizing continuous variables
+
+Creating summaries of continuous variables usually involves summary statistics 
+about the central tendency of the data (e.g., the mean and median) and the 
+variability of the data (e.g., the minimum value, the maximum value, the first
+and third quartiles, the interquartile range, standard deviance, and variance)
+
+From the data set that was created through a one-to-one merge in the last
+module, dataset.one.to.one, we can compute these statistics for the continuous 
+Age variable.
+
+```{r}
+
+dataset.one.to.one <- read.csv("data.one.merged.csv")
+
+mean(dataset.one.to.one$Age) # Returns 46.8 
+
+median(dataset.one.to.one$Age) # Returns 48 
+
+min(dataset.one.to.one$Age) # Returns 34 (Alice’s age) 
+
+max(dataset.one.to.one$Age) # Returns 59 (Carol’s age) 
+
+quantile(dataset.one.to.one$Age, 0.25) # Returns 43 
+
+quantile(dataset.one.to.one$Age, 0.75) # Returns 50 
+
+IQR(dataset.one.to.one$Age) # Returns 7 
+
+sd(dataset.one.to.one$Age) # Returns 9.20326 
+
+var(dataset.one.to.one$Age) # Returns 84.7
+
+```
+Through packages, R has incredible capacity for producing graphics; I highly 
+recommend the R Graphics Cookbook (https://r-graphics.org) if you want to get a
+sense for the variety of visualizations R can do. When getting to know one’s 
+data, though, quick and simple functions are useful because of their simplicity. 
+
+The plot() function can be used to produce a simple scatter plot of a single 
+continuous variable.
+
+```{r}
+
+plot(dataset.one.to.one$Age)
+
+```
+
+The plot would be more interesting if there were more than five observations, 
+but it gives a good visual sense for the statistics that were computed 
+previously. To plot two continuous variables, add the second continuous 
+variable (separated by a comma) as a second argument to the plot() function.
+The first argument in the plot() function is set as the Y-axis, and the second
+is set as the X-axis. When only one argument is included as above, that single
+variable is plotted on the Y axis and an Index, corresponding to the order 
+of the observations in the data set, is added to the X-axis.
+
+Another option for visualizing a continue variable is a histogram. The hist()
+function requires just one argument, the variable to be plotted as a histogram.
+
+```{r}
+
+hist(dataset.one.to.one$Age)
+
+```
+Yet another option is a boxplot, for which the boxplot() function can be used. 
+
+```{r}
+
+boxplot(dataset.one.to.one$Age)
+
+```
+
+We know from the summary statistics that the median is 48, which is where the 
+bolded line is. The first and third quartiles, 43 and 50 respectively, are the 
+edges of the box. The whiskers of the plot represent the values that are less 
+than the first quantile and greater than the third quantile.
+
+
+
+## Summarizing categorical variables
+
+A common method of summarizing categorical variables is the frequency table, 
+which displays counts and/or proportions of the number of observations in 
+different categories. One way to look at frequencies in R is the table() 
+function. The table() function requires just one argument, which will produce a 
+row of counts for a single categorical variable. One such variable in our
+merged data set is ClubName.
+
+```{r}
+
+table(dataset.one.to.one$ClubName)
+
+```
+
+From this table, we can see that two participants identified their club as 
+“School of Hard Nocks” and one participant each identified their club as “Able 
+Archers” and “String Pullers”, and one participant reported no club affiliation.
+
+Contingency tables, also called cross-tabulation tables, are frequency tables 
+in which two categorical variables are crossed. The levels of one variable make
+up the rows, and the levels of the other variable make up the columns, and 
+counts appear wherever both conditions in a cell apply to an observation. When 
+using the table() function to create a contingency table, the first argument 
+designates the rows and the second designates the columns.
+
+```{r}
+
+Club.Distance.table <- table(Club = dataset.one.to.one$ClubName, "Distance in M" = dataset.one.to.one$Distance)
+
+Club.Distance.table 
+
+```
+In addition to adding Distance as a second variable, this code also 
+demonstrates a convenient option for labeling the axes of the contingency 
+table. The row axis label, Club, did not require quotes because it was a single 
+word. The column axis label, Distance in M, needed quotes because the label was 
+more than one word.
+
+It is sometimes useful to see proportions of a total rather than raw counts. 
+In R, the proportions() function computes the proportion of the total for each 
+cell in the contingency table.
+
+```{r}
+
+proportions(Club.Distance.table)
+
+```
+

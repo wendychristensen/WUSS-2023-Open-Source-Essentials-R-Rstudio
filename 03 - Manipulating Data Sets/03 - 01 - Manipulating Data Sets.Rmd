@@ -1,0 +1,251 @@
+---
+title: "03 - 01 - Manipulating Data Sets"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Part 1
+
+## Using row-and-column notation to add/remove rows and columns
+
+The code chunk below creates the data set we manually created in the last unit.
+
+```{r}
+
+dataset = data.frame(ID = c(1,2,3,4,5), Name = c("Alice", "Bob", "Carol", "David", "Eve"), Age = c(34, 48, 59, 50, 43), Distance = c(50, 30, 50, 50, 50))
+
+```
+
+Because data files usually consist of rows and columns, it’s natural to think 
+of this data structure as a matrix. Matrices have a convenient row-and-column 
+notation style (rows x columns) that makes it easy to identify any element, 
+any row, or any column in a matrix. R allows users to use row-and-column 
+notation to identify and perform operations on the elements, rows, columns of a 
+data set. Brackets indicate that the notation is being used, and a comma is
+used within the brackets to separate rows (left side of comma) and columns 
+(right side of comma).
+
+Below is an example of code that pulls individual rows, columns, and elements
+from dataset. The Name columns is the second column, the row containing 
+David's information is in row 4, and David's name is in the fourth row of
+column 2 (4 x 2).
+
+```{r}
+
+Name.col = dataset[,2] # Selects Name column (column 2)
+David.row = dataset[4,] # Selects David’s row (row 4) 
+David.name = dataset[4,2] # Selects David’s name (row 4, column 2)
+
+```
+
+To remove a column from a data object, this notation can be combined with a 
+minus sign to indicate that the column should be dropped. For example, the code
+below first removes the ID column from dataset then removes David's row. To
+commit the changes to the original data object, the assignment operator can be
+used to overwrite the existing data object to reflect the desired change.
+
+```{r}
+
+dataset <- dataset[,-1] # Removes ID column
+
+dataset <- dataset[-4,] # Removes David's row column
+
+```
+
+If you re-examine the data set, you'll see that there are now three columns and
+four rows. If you want to preserve the original data object while still making
+changes, you can save the desired change as a new data object.
+
+To add a column or a row, a vector with the appropriate number of elements can 
+be added as a new row or a new column using the rbind() and the cbind() 
+functions, respectively. The arguments for these functions are the data objects 
+or vectors that one wants to bind together, each of which is separated by a 
+comma. If the goal is to add something to an existing data set, then the result 
+should be assigned to the same name as the original data set. 
+
+For example, if I wanted to add a new entry to the data set with the Name, 
+Age, and Distance columns, I could create a vector with the new information and 
+use the rbind() function to add the row like so:
+
+```{r}
+ 
+new.entry <- c("Zander", 51, 30)  # Creates Zander's vector
+
+dataset <- rbind(dataset, new.entry) # Adds Zander to dataset
+
+```
+
+If we re-examine dataset, we see that Zander's information has been added as a 
+new row. 
+
+## Setting variable types
+
+But something else has changed about the data set. If we examine the variables 
+in the Environment panel, we see that all the variables are now character v
+ariables. This will cause problems later if we want to perform numeric 
+operations on the columns that contain numbers (e.g., taking a mean of Age).
+
+To change a variable to a numeric or character variable type, use the 
+as.numeric() and as.character() functions, respectively. These functions can be 
+combined with the row-and-column notation discussed in the previous section to 
+target specific variables in an existing data set. 
+
+Name should be a character variable, so that one does not need to be changed.
+Age and Distance should be numeric, so the as.numeric() function can be used
+to change these to numeric variables. 
+
+```{r}
+
+dataset[,"Age"] <- as.numeric(dataset[,"Age"]) 
+
+dataset[,"Distance"] <- as.numeric(dataset[,"Distance"])
+
+```
+
+Notice that the typing has been changed in the Environment panel. 
+
+
+# Part 2
+
+## Creating new variables based on existing variables
+
+Another common data manipulation task is to create new variables based on the 
+values of existing variables. One way to do this is to use the ifelse() 
+function, which takes three arguments. The first argument is the condition on 
+which the new variable should be created, the second is what value the new 
+variable will take if the condition is true, and the third is what value the 
+new variable will take if the condition is false.
+
+Many different types of conditional statements can be made by using one or more 
+comparison operators. This is list of the comparison operators in R: 
+== (equal to) 
+!= (not equal to) 
+> (greater than) 
+>= (greater than or equal to) 
+< (less than) 
+<= (less than or equal to)
+
+If one needs to create a new variable based on multiple conditions, logical
+operators can be used. Some common ones are AND, OR, and NOT. In R, AND is 
+represented by & (the ampersand key), OR is represented by | (the pipe key), 
+and NOT is represented by ! (the exclamation point key).
+
+In it's most straightforward version, the ifelse() function creates a new
+binary variable based on one condition operator applied to one exiting 
+variable. For example, let's say I want people who are less than 50 years old 
+to be considered “Senior” and people 50 or more years old to be “Master”. The
+first argument in the function is the condition statement (Age < 50), the
+second argument is the value the new variable will take if the condition is
+true (Senior), and the third argument is the value the new will take if the 
+condition is false (Master). 
+
+```{r}
+
+dataset$AgeLevel <- ifelse(dataset$Age < 50, "Senior", "Master")
+
+```
+
+There is now a new variable named AgeLevel in dataset, such that Alice, Bob, 
+and Eve are Senior and Carol and Zander are Master. 
+
+To have three or more categories, ifelse() functions can be nested to allow 
+for as many condition evaluations as needed. The total number of ifelse() 
+functions needed to create a new categorical variable is one fewer than the 
+desired number of categories. Recall that the ifelse() function has three 
+arguments: the conditional statement, the resulting value if the condition is 
+true, and the resulting value if the condition is false. Thus, the appropriate 
+place to nest suceeding ifelse() functions is in that third argument. R will
+evaluate each one in order of appearance and will stop once a condition is met.
+
+Let’s say that I want to create a four-category variable, Division, based on 
+the values of Age and Distance. The values Division should take are “Senior 
+30m”, “Senior 50m”, “Master 30m”, and “Master 50m”. A combination of comparison 
+operators, logical operators, and nested ifelse() functions will let me do 
+this. Because I want to make four categories, I need three ifelse() statements.
+
+```{r}
+
+dataset$Division = ifelse(dataset$Age < 50 & dataset$Distance == 30, "Senior 30m", 
+                          
+                   ifelse(dataset$Age < 50 & dataset$Distance == 50, "Senior 50m",
+                          
+                   ifelse(dataset$Age >= 50 & dataset$Distance == 30, "Master 30m", "Master 50m")))
+
+# The extra white space is to make this easier to read
+
+```
+
+* The AND (&) logical operator is used in the first argument in all three 
+ifelse() functions to have Age and Distance evaluated simultaneously in the
+condition statement; the condition is fulfilled only if both parts of it are
+true. 
+
+* The first ifelse() function will set the new variable to “Senior 30m” when 
+both conditions in its first argument are met (Age less than 50 and Distance is 
+30). The third argument of the first ifelse() function contains the second 
+ifelse() function, which is used if the condition is not met. 
+
+* The second ifelse() function will set the new variable to “Senior 50m” when 
+both conditions in its first argument are met (Age less than 50 and Distance is 
+50). The third argument of the second ifelse() function contains the third 
+ifelse() function, which is used if the condition is not met. 
+
+* The third and final ifelse() function will set the new variable to “Master 
+30m” when both conditions in its first argument are met (Age greater than or 
+equal to 50 and Distance is 30). If this condition is not met, it will set
+the new variable to "Master 50m".
+
+## Subsetting data
+
+Subsetting data refers to selecting a subset of observations or a subset of 
+variables in a data set. In the case of subsetting variables, the 
+row-and-column notation discussed in a previous section can be expanded to 
+keeping or removing multiple variables. When variables are adjacent, colon 
+notation can be used to save some typing.
+
+```{r}
+
+first.three.vars <- dataset[,c(1:3)] # Contains Name (col 1), Age (col 2), and                                           
+                                     # Distance (col 3)
+
+first.last.vars <- dataset[,c(1,5)] # Contains Name (col 1) and Division (col 5)
+
+middle.three.vars <- dataset[,-c(1,5)] # Contains Age (col 2), Distance (col 3),
+                                       # and AgeLevel (col 4)
+
+```
+
+A similar process can be used to keep or remove rows
+
+```{r}
+
+first.three.obs <- dataset[c(1:3),] # Contains Alice (row 1), Bob (row 2), and
+                                    # Carol's (row 3) rows
+
+first.last.obs <- dataset[c(1,5),] # Contains Alice (row 1) and Zander's (row 3)
+                                   # rows
+
+middle.three.obs <- dataset[-c(1,5),] # Contains Bob (row 2), Carol (row 3), 
+                                      # and Eve's (row 4) rows
+
+```
+
+It is also common to subset rows based on their contents. One way to do this is
+the subset() function, which has two arguments, The first argument is the name 
+of the data set to be subsetted, and the second argument is the condition 
+statement describing which rows should be kept. 
+
+```{r} 
+
+Seniors50m <- subset(dataset, AgeLevel == 'Senior' & Distance == 50) 
+
+```
+
+The result contains just Alice and Eve, the only two who meet both conditions.
+
+

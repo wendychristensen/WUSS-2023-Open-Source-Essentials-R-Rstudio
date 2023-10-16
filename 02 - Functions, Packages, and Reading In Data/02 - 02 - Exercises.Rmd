@@ -1,0 +1,36 @@
+---
+title: "02 - 02 - Exercises"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output: pdf_document
+---
+
+## What's missing? 
+
+Run the code in the code chunk below, which will return an error message. There
+is one mistake in the code chunk; find it and correct it. If your change is
+correct, the code chunk will run without error and a new data set named fixme
+will appear in the Environment panel. 
+
+```{r}
+
+fixme = data.frame(ID = c(1,2,3,4), Height = c(62, 70, 65, 71), EyeColor = c("Blue", "Brown", "Brown", "Brown"), Age = c(36, 44, 52, 41)
+
+```
+
+
+## Reading in a CSV file
+
+There is a CSV file in the project folder named import.csv. Create a code 
+chunk below for your code, then use the read.csv() function to to read in the 
+data set and name the data set exercise.csv. 
+
+
+
+
+## Reading in a SAS7BDAT file
+
+There is an SPSS file in the project folder named import.sav. Create a code 
+chunk below for your code, load the haven package, then use the read_spss() 
+function to read in the data set and name the data set exercise.spss . 
+

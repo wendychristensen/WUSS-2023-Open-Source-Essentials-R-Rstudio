@@ -1,0 +1,42 @@
+---
+title: "01 - 03 - Exercise Answers"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## Exercise
+
+Do the following three things in order:
+
+1. Create a code chunk below this list
+
+2. In that code chunk, save two new values:
+
+predicted = 10
+
+mean = 15
+
+3. After defining the two new values, subtract mean from predicted, then square
+the result. Save the result into a new value named 'sqdev'. Ensure that the value
+of sqdev is visible in the Console. 
+
+4. Add this statement to the code chunk as a comment: "This is a 
+squared deviation."
+
+5. Run the code chunk and verify that you get the quantity you expect (25)
+
+
+```{r}
+
+predicted = 10
+
+mean = 15
+
+sqdev = (predicted - mean)^2 # This is a squared deviation
+
+sqdev
+
+```

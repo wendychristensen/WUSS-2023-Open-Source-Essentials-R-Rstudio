@@ -1,0 +1,143 @@
+---
+title: "02 - Functions, Packages, and Reading in Data"
+author: "Wendy Christensen"
+date: "2023-10-31"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Functions
+
+Almost everything you'll want to do in R is done via a function. *Functions*
+will always have a name followed by a set of parentheses. Functions generally
+require that you enter at least one *argument* into the parentheses. 
+
+You already used a function in the last unit: the abs() function.
+
+All functions have documentation, which can be viewed by typing ? before the
+name of the function. To examine the documentation of the abs() function, run
+the code chunk below. 
+
+```{r}
+
+?abs()
+
+```
+
+From the documentation that appeared in the Help panel on the bottom-right,
+the abs() function computes the absolute value of a single parameter. As you saw
+in the last unit, abs() will accept a number directly as an argument and will
+also accept a saved value that contains a number. 
+
+If a function has more than one argument, separate entries with a comma.
+
+## Creating Data
+
+The most simple form of data is a single row/column of values, called a 
+*vector*. You can manually create a vector in R by using the c() function. 
+The 'c' stands for concatenate. Each element you input needs to be separated
+by a comma. 
+
+```{r}
+
+B = c(1,2,3,4)
+
+B
+
+```
+
+After running the chunk, there is a a new value in the Environment panel named 
+a with the four elements that were entered into the c() function.
+
+Most data sets contain both rows and columns, and the columns usually have 
+names. One way to manually create a data set with rows and columns in R is to 
+use the data.frame() function. The data.frame() function will take any number 
+of vectors and add them to the data set as columns. The vectors need to be 
+separated by commas, and it's important that the parentheses for both the c() 
+and data.frame() functions are correctly closed. 
+
+```{r}
+
+dataset = data.frame(ID = c(1,2,3,4,5), Name = c("Alice", "Bob", "Carol", "David", "Eve"), Age = c(34, 48, 59, 50, 43), Distance = c(50, 30, 50, 50, 50))
+
+```
+
+To view this new data object, click on "dataset" in the Environment panel. A
+new window will appear showing the data set.
+
+To view the variable types, click on the blue circle with a white triangle 
+next to "dataset". The variable names, their types, and the first few values
+will be displayed under "dataset". To hide these, click on the blue circle
+with a white triangle again. 
+
+## Reading in data from CSV files
+
+A common file type for external data sets is the comma-delimited file (CSV). 
+Part of the reason for the popularity of CSV files is that most statistical 
+software, including R, can easily import them. 
+
+To import a CSV file as a data set, use the read.csv() function. The only
+argument needed is the file name (including the file extension) in quotes. By
+default, the read.csv() function use the first row as column names. 
+
+```{r}
+
+dataset.csv <- read.csv("datafile.csv")
+
+```
+
+## Reading in data from SAS7BDAT files using the haven package
+
+Sometimes one needs to read in data files created by other statistical 
+programs. One example of such a file is the SAS7BDAT file, which is native to 
+SAS. R does not have a function built-in to read SAS7BDAT files, but R allows 
+you to install *packages* that contain functions that other users have created 
+and made available to share with other users. Packages must be installed before
+any functions in them can be used. 
+
+Packages can be installed in a few different ways. In this HOW, we'll use
+the install.packages() function. You must know the exact name of the package. 
+Remember that everything is case sensitive!
+
+Run the code chunk below to install the haven package. 
+
+```{r}
+
+install.packages("haven")
+
+```
+
+Lots of red text appeared in the Console, but don't worry - nothing has gone 
+wrong. The red text in this case is more like a log showing the steps R took to 
+install the package. Many packages use functions from other packages as part of
+their functionality; these other packages are called *dependencies*. When you 
+tell R to install a package, it will also install any dependencies of the 
+package. The haven package uses functions from many other packages, which is 
+why there is so much red text. 
+
+You only need to install a package once, but you must load the package into 
+memory every time you start a new R session. 
+
+Run the code chunk below to load the haven package. Once run, you can use
+functions from a package any time during an R session. 
+
+```{r}
+
+library(haven)
+
+```
+
+The function from the haven package we need to import SAS7BDAT files is the 
+read_sas() function. Like the read.csv() function, the only argument needed
+is the filename (with the extension) in quotes.
+
+```{r}
+
+dataset.sas <- read_sas("datafile.sas7bdat")
+
+```
+
+
